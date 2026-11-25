@@ -1,0 +1,79 @@
+#include <iostream>
+
+class forca{
+public:
+    const static int TAM = 20;
+    std::string palavras[TAM]={"numero","hoje","quatro","musica","ensinar","jogar","acordar","estudar","gostar","contar",
+"maiden","metal","volei","programar","oitenta","rede","guitarra","ironia","universo","pessoa"};
+    std::string Sortear();
+    std::string montarP2( std :: string );
+    std::string verificarLetra(std::string,std::string,char,bool*);
+    bool verificaFimJogo(std::string);
+};
+
+std::string forca::Sortear(){
+    int n=rand()%TAM;
+    return palavras[n];
+}
+std::string forca::montarP2(std::string p1){
+    std::string p2="";
+    for(int i=0;i<p1.length();i++){
+        p2+="_ ";
+    }
+    return p2;
+}
+std::string forca::verificarLetra(std::string p1,std::string p2,char L,bool* achei){
+    *achei=false;
+    for(int i=0;i<p1.length();i++){
+        if(p1[i]==L){
+            p2[i]=L;
+            *achei=true;
+        }
+    }
+    return p2;
+}
+bool forca::verificaFimJogo(std::string p2){
+    for(int i=0;i<p2.length();i++){
+        if(p2[i]=='_'){
+            return false;
+        }
+    }
+}
+
+int main(){
+    forca f;
+    int jogadas;
+    std::string p1,p2,letras ;
+    char L;
+    bool achei,acertou;
+    int i;
+    srand(time(NULL));
+    int acertos;
+    
+    p1=f.Sortear();
+    letras="";
+    jogadas=0;
+    p2=f.montarP2(p1);
+    acertou=false;
+    do{
+        system("clear");
+        std::cout<<"Palavra: "<<p2<<std::endl;
+        std::cout<<"Letras : "<<letras<<std::endl;
+        std::cout<<"Jogadas: "<<jogadas<<std::endl;
+        std::cout<<"Informe uma letra : ";
+        std::cin>>L;
+        p2=f.verificarLetra(p1,p2,L,&achei);
+        letras+=L;
+        if(!achei){
+            jogadas++;
+        }
+        acertou=f.verificaFimJogo(p2);
+    }
+    while(jogadas<6 && !acertou);
+        if(acertou){
+        std::cout<<"Parabéns!!Acertou a palavra: "<<p2<<std::endl;
+        }
+        else{
+        std::cout<<"Errou. Que pena!!A palavra era: "<<p1<<std::endl;
+    }
+}
